@@ -1,0 +1,9 @@
+Flask
+flask-bootstrap
+flask-SQLAlchemy
+itsdangerous
+Jinja2
+MarkupSafe
+Werkzeug
+geoalchemy
+geopandas
