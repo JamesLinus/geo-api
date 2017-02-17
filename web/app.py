@@ -67,6 +67,7 @@ def index():
     the_text = db.metadata
 
     return render_template('brochure/index.html', the_text=the_text)
+
 ## GET ##
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
@@ -96,9 +97,6 @@ def create_task():
 
     tasks.append(task)
     return jsonify({'task':task}), 201
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

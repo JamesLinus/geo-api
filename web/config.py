@@ -2,6 +2,6 @@
 SECRET_KEY = '123456790'
 
 # database connection
-SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://agtech:tasty@localhost:5432/agtech'
+SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://geoapi:likes_geography@localhost:5432/geoapi'
 SQLALCHEMY_ECHO = True
 

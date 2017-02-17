@@ -1,39 +1,40 @@
-# docker-comppose.yml
+# https://www.syncano.io/blog/configuring-running-django-celery-docker-containers-pt-1/
 
-web:
-  restart: always
-  build: ./web
-  expose:
-    - "8000"
-  volumes:
-    - ./web:/usr/src/app
-  env_file: .env
-  command: python -m flask run --host=0.0.0.0 --port 8000 --debugger
+version: '2'
 
-nginx:
-  restart: always
-  build: ./nginx/
-  ports:
-    - "80:80"
-  volumes:
-    - /www/static
-  volumes_from:
-    - web
-  links:
-    - web:web
+services:  
 
-data:
-  restart: always
-  image: postgres:latest
-  volumes:
-    - /var/lib/postgresql
-  command: "true"
+  # PostgreSQL database
 
-postgres:
-  restart: always
-  image: postgres:latest
-  volumes_from:
-    - data
-  ports:
-    - "5432:5432"
-    
+  db:
+    image: kartoza/postgis:9.5-2.2
+    hostname: db
+    environment:
+      - POSTGRES_USER=geoapi
+      - POSTGRES_PASSWORD=likes_geography
+      - POSTGRES_DB=geoapi
+    ports:
+      - "25432:5432"
+    volumes_from:
+      - data
+
+  data:
+    restart: always
+    image: kartoza/postgis:9.5-2.2
+    volumes:
+      - /var/lib/postgresql
+    command: "true"
+
+  # Flask web server
+  web:
+    build: ./web
+    hostname: web
+    volumes:
+      - .:/usr/src/app  # mount current directory inside container
+    ports:
+      - "8000:5000"
+    # set up links so that web knows about db, rabbit and redis
+    links:
+      - db
+    depends_on:
+      - db
