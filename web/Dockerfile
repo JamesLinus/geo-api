@@ -3,7 +3,9 @@
   
 FROM python:2.7.13-onbuild  
   
-MAINTAINER Dheeraj Chand <dheeraj@mautinoa.com>  
+MAINTAINER Dheeraj Chand <dheeraj@mautinoa.com>
+
+ENV FLASK_APP=
   
 RUN apt-get update && apt-get install -y \
     vim \

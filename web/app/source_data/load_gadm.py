@@ -2,7 +2,7 @@ import fiona
 import geopandas as gpd
 from sqlalchemy import create_engine
 
-from web.config import SQLALCHEMY_DATABASE_URI
+from web.app.config import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 

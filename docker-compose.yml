@@ -32,7 +32,8 @@ services:
     volumes:
       - .:/usr/src/app  # mount current directory inside container
     ports:
-      - "8000:5000"
+      - "8000:8000"
+    command: python -m flask run --host=0.0.0.0 --port 8000 --debugger
     # set up links so that web knows about db, rabbit and redis
     links:
       - db
