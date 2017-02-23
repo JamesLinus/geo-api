@@ -9,4 +9,7 @@ EXPOSE 80
 EXPOSE 443
 VOLUME /var/www
 
-ENTRYPOINT ["lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+COPY docker-entrypoint.sh /
+RUN chmod +x ./docker-entrypoint.sh
+
+ENTRYPOINT ["./docker-entrypoint.sh"]

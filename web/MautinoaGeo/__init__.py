@@ -20,10 +20,13 @@ from sqlalchemy.orm import sessionmaker
 import geopandas as gpd
 import geoalchemy2 as geoalch
 
+from werkzeug.contrib.fixers import LighttpdCGIRootFix
+
 # ----------- DB and App Setup -----------
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+app.wsgi_app = LighttpdCGIRootFix(app.wsgi_app)
 db = SQLAlchemy(app)
 
 bootstrap = Bootstrap(app)
