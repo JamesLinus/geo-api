@@ -4,9 +4,39 @@ version: '2'
 
 services:  
 
+  # Flask web server
+  web:
+    restart: always
+    build: ./web
+    expose:
+      - "8000"
+    links:
+      - db:db
+    hostname: web
+    ports:
+      - "8000:8000"
+    # gunicorn is set up in the Dockerfile; if you want raw flask, uncomment the next line
+    #command: python -m flask run --host=0.0.0.0 --port 8000 --debugger
+    # set up links so that web knows about db, rabbit and redis
+    depends_on:
+      - db
+
+  lighttpd:
+    restart: always
+    build: ./lighttpd/
+    ports:
+      - "80:80"
+    volumes:
+      - /var/www
+    volumes_from:
+      - web
+    links:
+      - web:web
+
   # PostgreSQL database
 
   db:
+    restart: always
     image: kartoza/postgis:9.5-2.2
     hostname: db
     environment:
@@ -19,23 +49,8 @@ services:
       - data
 
   data:
-    restart: always
     image: kartoza/postgis:9.5-2.2
     volumes:
       - /var/lib/postgresql
-    command: "true"
 
-  # Flask web server
-  web:
-    build: ./web
-    hostname: web
-    volumes:
-      - .:/usr/src/app  # mount current directory inside container
-    ports:
-      - "8000:8000"
-    command: python -m flask run --host=0.0.0.0 --port 8000 --debugger
-    # set up links so that web knows about db, rabbit and redis
-    links:
-      - db
-    depends_on:
-      - db
+
