@@ -31,9 +31,6 @@ RUN apt-get update && apt-get install -y \
 RUN pip install gunicorn json-logging-py
 RUN cd MautinoaGeo && pip install .
 
-#RUN mkdir -p /var/log/supervisor
-#COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 COPY gunicorn.conf /gunicorn.conf
 COPY logging.conf /logging.conf
 

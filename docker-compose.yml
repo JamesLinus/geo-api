@@ -17,7 +17,7 @@ services:
       - "8000:8000"
     # gunicorn is set up in the Dockerfile; if you want raw flask, uncomment the next line
     #command: python -m flask run --host=0.0.0.0 --port 8000 --debugger
-    # set up links so that web knows about db, rabbit and redis
+    # set up links so that web knows about db and anything else it needs
     depends_on:
       - db
 
@@ -26,6 +26,7 @@ services:
     build: ./lighttpd/
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/www
     volumes_from:
